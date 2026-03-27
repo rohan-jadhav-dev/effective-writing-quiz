@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Effective Writing — Quiz Practice</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0e12;
+    --surface: #16161d;
+    --card: #1c1c26;
+    --border: #2a2a3a;
+    --accent: #f0c040;
+    --accent2: #7b5ea7;
+    --correct: #3ecf8e;
+    --wrong: #f46a6a;
+    --text: #e8e8f0;
+    --muted: #8888aa;
+    --radius: 14px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0 0 60px;
+  }
+
+  /* Header */
+  header {
+    background: linear-gradient(135deg, #1a1025 0%, #0e0e1a 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 32px 24px 28px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: -60px; left: 50%; transform: translateX(-50%);
+    width: 500px; height: 200px;
+    background: radial-gradient(ellipse, rgba(240,192,64,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    color: var(--accent);
+  }
+  header p {
+    margin-top: 6px;
+    color: var(--muted);
+    font-size: 0.95rem;
+    font-weight: 300;
+  }
+
+  /* Score bar */
+  .score-bar {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin: 20px 16px 0;
+  }
+  .score-pill {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 99px;
+    padding: 8px 20px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--muted);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .score-pill span { color: var(--text); font-weight: 600; }
+  .score-pill.correct-pill span { color: var(--correct); }
+  .score-pill.wrong-pill span { color: var(--wrong); }
+
+  /* Progress */
+  .progress-wrap {
+    max-width: 700px;
+    margin: 24px auto 0;
+    padding: 0 20px;
+  }
+  .progress-track {
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent2), var(--accent));
+    border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+
+  /* Main */
+  main {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 28px 16px 0;
+  }
+
+  /* Week selector */
+  .week-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .week-tab {
+    padding: 8px 20px;
+    border-radius: 99px;
+    border: 1.5px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .week-tab:hover { border-color: var(--accent2); color: var(--text); }
+  .week-tab.active { background: var(--accent); border-color: var(--accent); color: #0e0e12; font-weight: 700; }
+
+  /* Question card */
+  .q-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px 28px 24px;
+    margin-bottom: 18px;
+    transition: border-color 0.3s;
+    animation: slideIn 0.35s ease;
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .q-card.answered-correct { border-color: var(--correct); }
+  .q-card.answered-wrong { border-color: var(--wrong); }
+
+  .q-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .q-num {
+    background: var(--accent2);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 99px;
+    letter-spacing: 0.5px;
+  }
+  .q-type {
+    font-size: 0.75rem;
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  .q-text {
+    font-size: 1rem;
+    line-height: 1.6;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 20px;
+  }
+
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .option-btn {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 13px 16px;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: left;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.93rem;
+    color: var(--text);
+    transition: all 0.18s;
+    width: 100%;
+    font-weight: 400;
+  }
+  .option-btn:hover:not(:disabled) {
+    border-color: var(--accent2);
+    background: rgba(123,94,167,0.1);
+  }
+  .option-btn .opt-label {
+    min-width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.78rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+    transition: all 0.18s;
+  }
+  .option-btn:hover:not(:disabled) .opt-label {
+    border-color: var(--accent2);
+    color: var(--accent2);
+  }
+  .option-btn.correct {
+    border-color: var(--correct);
+    background: rgba(62,207,142,0.08);
+  }
+  .option-btn.correct .opt-label {
+    background: var(--correct);
+    border-color: var(--correct);
+    color: #0e0e12;
+  }
+  .option-btn.wrong {
+    border-color: var(--wrong);
+    background: rgba(244,106,106,0.08);
+  }
+  .option-btn.wrong .opt-label {
+    background: var(--wrong);
+    border-color: var(--wrong);
+    color: #fff;
+  }
+  .option-btn.reveal-correct {
+    border-color: var(--correct);
+    background: rgba(62,207,142,0.05);
+  }
+  .option-btn.reveal-correct .opt-label {
+    border-color: var(--correct);
+    color: var(--correct);
+  }
+  .option-btn:disabled { cursor: default; }
+
+  /* Multi-select note */
+  .multi-note {
+    font-size: 0.78rem;
+    color: var(--accent);
+    margin-bottom: 12px;
+    font-weight: 500;
+    padding: 6px 12px;
+    background: rgba(240,192,64,0.07);
+    border-radius: 8px;
+    display: inline-block;
+  }
+
+  /* Submit for multi-select */
+  .submit-multi {
+    margin-top: 14px;
+    padding: 10px 24px;
+    background: var(--accent2);
+    border: none;
+    border-radius: 99px;
+    color: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .submit-multi:hover { opacity: 0.85; }
+  .submit-multi:disabled { opacity: 0.4; cursor: default; }
+
+  /* Explanation */
+  .explanation {
+    margin-top: 14px;
+    padding: 14px 16px;
+    background: rgba(255,255,255,0.03);
+    border-left: 3px solid var(--accent2);
+    border-radius: 0 8px 8px 0;
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.6;
+    display: none;
+  }
+  .explanation.show { display: block; animation: fadeIn 0.25s ease; }
+  .explanation strong { color: var(--text); }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  /* Result badge */
+  .result-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 12px;
+    padding: 5px 14px;
+    border-radius: 99px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    display: none;
+  }
+  .result-badge.show { display: inline-flex; animation: fadeIn 0.2s ease; }
+  .result-badge.correct { background: rgba(62,207,142,0.15); color: var(--correct); }
+  .result-badge.wrong { background: rgba(244,106,106,0.15); color: var(--wrong); }
+
+  /* Reset button */
+  .reset-wrap {
+    text-align: center;
+    margin-top: 32px;
+  }
+  .reset-btn {
+    padding: 12px 32px;
+    border-radius: 99px;
+    border: 1.5px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .reset-btn:hover { border-color: var(--accent); color: var(--accent); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Effective Writing — NPTEL</h1>
+  <p>Practice Assignment Questions · JAN 2026</p>
+</header>
+
+<div class="score-bar">
+  <div class="score-pill">Questions: <span id="totalCount">0</span></div>
+  <div class="score-pill correct-pill">Correct: <span id="correctCount">0</span></div>
+  <div class="score-pill wrong-pill">Wrong: <span id="wrongCount">0</span></div>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+</div>
+
+<main>
+  <div class="week-tabs">
+    <button class="week-tab active" onclick="showWeek('week1')">Week 1</button>
+    <button class="week-tab" onclick="showWeek('week2')">Week 2</button>
+  </div>
+
+  <div id="week1"></div>
+  <div id="week2" style="display:none"></div>
+
+  <div class="reset-wrap">
+    <button class="reset-btn" onclick="resetAll()">↺ Reset All Answers</button>
+  </div>
+</main>
+
+<script>
+const quizData = {
+  week1: [
+    {
+      id: 'w1q1',
+      num: 'Q1',
+      text: 'Which of the following is mentioned as an aim of writing?',
+      type: 'single',
+      options: ['To entertain economically', 'To persuade', 'To encourage oral communication', 'To avoid record-keeping'],
+      correct: [1],
+      explanation: 'Writing has many aims including to describe, explain, instruct, specify, evaluate, <strong>persuade</strong>, concede and apologize, protest, and reject. "To persuade" is one of the listed aims.'
+    },
+    {
+      id: 'w1q2',
+      num: 'Q2',
+      text: 'Which of the following is an important requirement of effective writing?',
+      type: 'single',
+      options: ['Only natural talent', 'Hard work and training', 'Minimal effort', 'Avoidance of reading'],
+      correct: [1],
+      explanation: 'Good writing develops through practice and learning. It is not just based on natural talent — <strong>hard work and training</strong> are essential requirements.'
+    },
+    {
+      id: 'w1q3',
+      num: 'Q3',
+      text: 'Which of the following is NOT mentioned as a standard rule of correctness in effective writing?',
+      type: 'single',
+      options: ['Proper use of capitalisation', 'Correct use of articles', 'Avoidance of double negatives', 'Use of ornamental poetic devices'],
+      correct: [3],
+      explanation: 'Standard rules of correctness include capitalization, double negatives, verb use, SVA, number agreement, sentence structure, and use of voice. <strong>Ornamental poetic devices</strong> are not a rule — correct writing focuses on clarity and grammar.'
+    },
+    {
+      id: 'w1q4',
+      num: 'Q4',
+      text: 'Which of the following CANNOT be included while differentiating between oral and written communication?',
+      type: 'single',
+      options: ['Oral communication uses spoken words', 'Written communication requires script', 'Written communication provides proper records', 'Oral communication is slower'],
+      correct: [3],
+      explanation: '<strong>Oral communication is usually FASTER than written communication</strong>, not slower. Hence, "Oral communication is slower" is incorrect and cannot be used as a differentiator.'
+    },
+    {
+      id: 'w1q5',
+      num: 'Q5',
+      text: 'Which of the following is a major feature of oral communication?',
+      type: 'single',
+      options: ['Messages can be edited', 'Instant feedback', 'Permanent record', 'No chance of misinterpretation'],
+      correct: [1],
+      explanation: 'In oral communication, <strong>instant feedback</strong> is received from the recipient, which is not possible in written communication. Editing is a feature of written, not oral.'
+    },
+    {
+      id: 'w1q6',
+      num: 'Q6',
+      text: 'Which of the following are advantages of effective writing mentioned in the lecture? (Select TWO)',
+      type: 'multi',
+      options: ['Promotes creative writing', 'Falters in communication in various situations', 'Reduces the need for research', 'Trains us to prepare documents scientifically'],
+      correct: [0, 3],
+      explanation: 'Effective writing <strong>promotes creative writing skills</strong> and <strong>trains us to draft need-based documents scientifically</strong>. These are two of the listed advantages.'
+    },
+    {
+      id: 'w1q7',
+      num: 'Q7',
+      text: 'Which of the following are listed as stages of writing? (Select TWO)',
+      type: 'multi',
+      options: ['Pre-writing', 'Ghost-writing', 'Re-writing', 'Translating'],
+      correct: [0, 2],
+      explanation: 'The three stages of writing are: <strong>Pre-writing</strong>, Writing, and <strong>Re-writing</strong>. Ghost-writing and translating are not listed stages.'
+    },
+    {
+      id: 'w1q8',
+      num: 'Q8',
+      text: 'Which of the following verbs cannot be used in progressive (continuous) forms?',
+      type: 'single',
+      options: ['Resemble', 'Play', 'Taste (as a verb of perception)', 'Write'],
+      correct: [0],
+      explanation: '<strong>Resemble</strong> is a relational/stative verb (like appear, belong to, consist of, contain, equal, fit, include, owe, require, seem, suffice) that cannot be used in progressive forms. "Taste" as a verb of perception also doesn\'t take progressive, but "Resemble" is the primary answer highlighted.'
+    },
+    {
+      id: 'w1q9',
+      num: 'Q9',
+      text: 'Essential components of communication include: (Select TWO)',
+      type: 'multi',
+      options: ['Message', 'Sender', 'Disturbance', 'Aesthetics'],
+      correct: [0, 1],
+      explanation: 'Communication requires a <strong>sender</strong> and a <strong>message</strong> as essential components. Other elements like channel and receiver also exist, but disturbance and aesthetics are not essential components.'
+    },
+    {
+      id: 'w1q10',
+      num: 'Q10',
+      text: 'Which of the following are true regarding written communication? (Select TWO)',
+      type: 'multi',
+      options: ['Editing is possible', 'Words can be reversed after speaking', 'Misinterpretation is less likely', 'Instant feedback is available'],
+      correct: [0, 2],
+      explanation: 'Written communication allows <strong>editing before sending</strong> and <strong>misinterpretation is less likely</strong>. Words once uttered in oral communication cannot be reversed, and instant feedback is a feature of oral, not written, communication.'
+    },
+  ],
+  week2: [
+    {
+      id: 'w2q1',
+      num: 'Q1',
+      text: 'Which of the following is NOT a source of ambiguity?',
+      type: 'single',
+      options: ['Relative words', 'Unusual word usage', 'Ellipsis', 'Exact antonym'],
+      correct: [3],
+      explanation: '<strong>Exact antonyms</strong> provide clarity and opposite meanings precisely — they are not a source of ambiguity. Relative words, unusual word usage, and ellipsis can all create ambiguity.'
+    },
+  ]
+};
+
+let scores = { correct: 0, wrong: 0, answered: 0 };
+let multiSelected = {};
+
+function showWeek(week) {
+  document.querySelectorAll('.week-tab').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('week1').style.display = week === 'week1' ? '' : 'none';
+  document.getElementById('week2').style.display = week === 'week2' ? '' : 'none';
+}
+
+function buildQuiz() {
+  ['week1', 'week2'].forEach(week => {
+    const container = document.getElementById(week);
+    container.innerHTML = '';
+    quizData[week].forEach(q => {
+      container.appendChild(renderQuestion(q));
+    });
+  });
+  updateProgress();
+}
+
+function renderQuestion(q) {
+  const card = document.createElement('div');
+  card.className = 'q-card';
+  card.id = 'card-' + q.id;
+
+  const isMulti = q.type === 'multi';
+
+  let optionsHTML = '';
+  q.options.forEach((opt, i) => {
+    const label = String.fromCharCode(65 + i);
+    optionsHTML += `
+      <button class="option-btn" id="opt-${q.id}-${i}" onclick="${isMulti ? `toggleMulti('${q.id}', ${i})` : `selectSingle('${q.id}', ${i})`}">
+        <span class="opt-label">${label}</span>
+        <span>${opt}</span>
+      </button>`;
+  });
+
+  card.innerHTML = `
+    <div class="q-meta">
+      <span class="q-num">${q.num}</span>
+      <span class="q-type">${isMulti ? 'Select two correct answers' : 'Single correct answer'}</span>
+    </div>
+    <div class="q-text">${q.text}</div>
+    ${isMulti ? '<div class="multi-note">✦ Select two options then click Submit</div>' : ''}
+    <div class="options">${optionsHTML}</div>
+    ${isMulti ? `<button class="submit-multi" id="submit-${q.id}" onclick="submitMulti('${q.id}')" disabled>Submit Answer</button>` : ''}
+    <div class="result-badge" id="badge-${q.id}"></div>
+    <div class="explanation" id="exp-${q.id}">${q.explanation}</div>
+  `;
+  return card;
+}
+
+function selectSingle(qid, idx) {
+  const q = findQ(qid);
+  if (!q) return;
+  const card = document.getElementById('card-' + qid);
+  if (card.classList.contains('answered-correct') || card.classList.contains('answered-wrong')) return;
+
+  const isCorrect = q.correct.includes(idx);
+
+  q.options.forEach((_, i) => {
+    const btn = document.getElementById(`opt-${qid}-${i}`);
+    btn.disabled = true;
+    if (i === idx) btn.classList.add(isCorrect ? 'correct' : 'wrong');
+    if (!isCorrect && q.correct.includes(i)) btn.classList.add('reveal-correct');
+  });
+
+  card.classList.add(isCorrect ? 'answered-correct' : 'answered-wrong');
+  showBadge(qid, isCorrect);
+  showExplanation(qid);
+  updateScore(isCorrect);
+}
+
+function toggleMulti(qid, idx) {
+  const card = document.getElementById('card-' + qid);
+  if (card.classList.contains('answered-correct') || card.classList.contains('answered-wrong')) return;
+
+  if (!multiSelected[qid]) multiSelected[qid] = new Set();
+  const sel = multiSelected[qid];
+  const btn = document.getElementById(`opt-${qid}-${idx}`);
+
+  if (sel.has(idx)) {
+    sel.delete(idx);
+    btn.style.borderColor = '';
+    btn.style.background = '';
+    btn.querySelector('.opt-label').style.borderColor = '';
+    btn.querySelector('.opt-label').style.color = '';
+  } else {
+    if (sel.size >= 2) return;
+    sel.add(idx);
+    btn.style.borderColor = 'var(--accent2)';
+    btn.style.background = 'rgba(123,94,167,0.1)';
+    btn.querySelector('.opt-label').style.borderColor = 'var(--accent2)';
+    btn.querySelector('.opt-label').style.color = 'var(--accent2)';
+  }
+
+  const submitBtn = document.getElementById('submit-' + qid);
+  if (submitBtn) submitBtn.disabled = sel.size !== 2;
+}
+
+function submitMulti(qid) {
+  const q = findQ(qid);
+  if (!q) return;
+  const sel = multiSelected[qid] || new Set();
+  const card = document.getElementById('card-' + qid);
+  if (card.classList.contains('answered-correct') || card.classList.contains('answered-wrong')) return;
+
+  const selArr = Array.from(sel).sort();
+  const correctArr = [...q.correct].sort();
+  const isCorrect = JSON.stringify(selArr) === JSON.stringify(correctArr);
+
+  q.options.forEach((_, i) => {
+    const btn = document.getElementById(`opt-${qid}-${i}`);
+    btn.disabled = true;
+    btn.style.borderColor = '';
+    btn.style.background = '';
+    btn.querySelector('.opt-label').style.borderColor = '';
+    btn.querySelector('.opt-label').style.color = '';
+
+    if (sel.has(i) && q.correct.includes(i)) btn.classList.add('correct');
+    else if (sel.has(i) && !q.correct.includes(i)) btn.classList.add('wrong');
+    else if (!sel.has(i) && q.correct.includes(i)) btn.classList.add('reveal-correct');
+  });
+
+  const submitBtn = document.getElementById('submit-' + qid);
+  if (submitBtn) submitBtn.disabled = true;
+
+  card.classList.add(isCorrect ? 'answered-correct' : 'answered-wrong');
+  showBadge(qid, isCorrect);
+  showExplanation(qid);
+  updateScore(isCorrect);
+}
+
+function showBadge(qid, isCorrect) {
+  const badge = document.getElementById('badge-' + qid);
+  badge.className = 'result-badge show ' + (isCorrect ? 'correct' : 'wrong');
+  badge.innerHTML = isCorrect ? '✓ Correct!' : '✗ Incorrect';
+}
+
+function showExplanation(qid) {
+  const exp = document.getElementById('exp-' + qid);
+  if (exp) exp.classList.add('show');
+}
+
+function updateScore(isCorrect) {
+  if (isCorrect) scores.correct++; else scores.wrong++;
+  scores.answered++;
+  document.getElementById('correctCount').textContent = scores.correct;
+  document.getElementById('wrongCount').textContent = scores.wrong;
+  updateProgress();
+}
+
+function updateProgress() {
+  const total = countTotal();
+  document.getElementById('totalCount').textContent = total;
+  const pct = total === 0 ? 0 : Math.round((scores.answered / total) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+
+function countTotal() {
+  return Object.values(quizData).reduce((s, arr) => s + arr.length, 0);
+}
+
+function findQ(qid) {
+  for (const week of Object.values(quizData)) {
+    const q = week.find(x => x.id === qid);
+    if (q) return q;
+  }
+  return null;
+}
+
+function resetAll() {
+  scores = { correct: 0, wrong: 0, answered: 0 };
+  multiSelected = {};
+  document.getElementById('correctCount').textContent = '0';
+  document.getElementById('wrongCount').textContent = '0';
+  buildQuiz();
+}
+
+buildQuiz();
+</script>
+</body>
+</html>
