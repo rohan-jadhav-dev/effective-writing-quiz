@@ -200,9 +200,11 @@
   <div class="week-tabs">
     <button class="week-tab active" onclick="showWeek('week1', this)">Week 1</button>
     <button class="week-tab" onclick="showWeek('week2', this)">Week 2</button>
+    <button class="week-tab" onclick="showWeek('week3', this)">Week 3</button>
   </div>
   <div id="week1"></div>
   <div id="week2" style="display:none"></div>
+  <div id="week3" style="display:none"></div>
   <div class="reset-wrap" id="mainResetWrap">
     <button class="reset-btn" onclick="resetAll()">↺ Reset All Answers</button>
   </div>
@@ -257,7 +259,7 @@ const quizData = {
     { id: 'w1q8', num: 'Q8', text: 'Which of the following verbs CANNOT be used in progressive (continuous) forms? (Select TWO)', type: 'multi',
       options: ['Resemble', 'Play', 'Taste (as a verb of perception)', 'Write'],
       correct: [0, 2],
-      explanation: '<strong>Resemble</strong> is a relational/stative verb (like appear, belong to, contain, equal, fit, include, seem, suffice) that cannot take progressive forms. <strong>Taste as a verb of perception</strong> (hear, see, smell, taste) also cannot be used in progressive/continuous forms. Play and Write are regular action verbs that can be used in continuous tense.'
+      explanation: '<strong>Resemble</strong> is a relational/stative verb that cannot take progressive forms. <strong>Taste as a verb of perception</strong> also cannot be used in progressive/continuous forms. Play and Write are regular action verbs that can be used in continuous tense.'
     },
     { id: 'w1q9', num: 'Q9', text: 'Essential components of communication include: (Select TWO)', type: 'multi',
       options: ['Message', 'Sender', 'Disturbance', 'Aesthetics'],
@@ -284,42 +286,94 @@ const quizData = {
     { id: 'w2q3', num: 'Q3', text: 'Which of the following is the correct question tag for "He is coming"?', type: 'single',
       options: ["isn't he?", 'is he?', "doesn't he?", "won't he?"],
       correct: [0],
-      explanation: 'Question tags use the auxiliary verb with opposite polarity. "He is coming" (positive) uses the auxiliary "is" → the tag becomes <strong>"isn\'t he?"</strong> (negative). This is standard English question tag formation.'
+      explanation: 'Question tags use the auxiliary verb with opposite polarity. "He is coming" (positive) uses the auxiliary "is" → the tag becomes <strong>"isn\'t he?"</strong> (negative).'
     },
     { id: 'w2q4', num: 'Q4', text: 'What does the word "essay" originally mean?', type: 'single',
       options: ['To narrate', 'To argue', 'To attempt', 'To describe'],
       correct: [2],
-      explanation: 'The word "essay" originates from the Old French word <em>essai</em> meaning <strong>"trial or attempt"</strong>. It is also associated with the Latin term <em>exagium</em> meaning "to weigh". It was popularized by French philosopher Michel de Montaigne in 1580.'
+      explanation: 'The word "essay" originates from the Old French word <em>essai</em> meaning <strong>"trial or attempt"</strong>. It was popularized by French philosopher Michel de Montaigne in 1580.'
     },
     { id: 'w2q5', num: 'Q5', text: 'What is the purpose of keywords in academic writing?', type: 'single',
       options: ['Summarise plot', 'Represent crucial concepts', 'Decorate the paper', 'Replace the abstract'],
       correct: [1],
-      explanation: 'Keywords <strong>represent crucial concepts</strong> of the paper. They highlight the main ideas, help readers and search systems quickly understand the topic, and are placed to make the paper discoverable.'
+      explanation: 'Keywords <strong>represent crucial concepts</strong> of the paper. They highlight the main ideas, help readers and search systems quickly understand the topic.'
     },
     { id: 'w2q6', num: 'Q6', text: 'Meaning of a sentence depends not only on words but on their ________.', type: 'single',
       options: ['contexts', 'paratext', 'grammar only', 'punctuation'],
       correct: [0],
-      explanation: 'Words can mean one thing in one context and mean something entirely different in another. Therefore, meaning depends not only on words but on their <strong>contexts</strong>. Without context, interpretation may change.'
+      explanation: 'Words can mean one thing in one context and mean something entirely different in another. Therefore, meaning depends not only on words but on their <strong>contexts</strong>.'
     },
     { id: 'w2q7', num: 'Q7', text: 'Improper referents often create ________ in meaning.', type: 'single',
       options: ['exactness', 'ambiguity', 'clarity', 'emphasis'],
       correct: [1],
-      explanation: 'Unclear references confuse the reader. This leads to multiple possible meanings — i.e., <strong>ambiguity</strong>. Proper use of referents (pronouns, demonstratives) is essential for clear writing.'
+      explanation: 'Unclear references confuse the reader and lead to multiple possible meanings — i.e., <strong>ambiguity</strong>. Proper use of referents is essential for clear writing.'
     },
     { id: 'w2q8', num: 'Q8', text: 'A conclusion of an essay should not add any new ________.', type: 'single',
       options: ['information', 'paragraph', 'transition', 'sentence'],
       correct: [0],
-      explanation: 'The conclusion summarizes existing ideas. Introducing new points can confuse the reader. Therefore, a conclusion should <strong>not add any new information</strong> — it should recapitulate and leave a lasting impression.'
+      explanation: 'The conclusion summarizes existing ideas. Introducing new points can confuse the reader. Therefore, a conclusion should <strong>not add any new information</strong>.'
     },
     { id: 'w2q9', num: 'Q9', text: 'Reflective essays deal with ________ subjects.', type: 'single',
       options: ['concrete', 'abstract', 'technical', 'historical'],
       correct: [1],
-      explanation: 'Reflective writing focuses on thoughts, feelings, and experiences. These are <strong>abstract</strong> rather than concrete topics. Subjects include Political, Moral, Social, Literary Criticism, punctuality, discipline, etc.'
+      explanation: 'Reflective writing focuses on thoughts, feelings, and experiences — these are <strong>abstract</strong> rather than concrete topics.'
     },
     { id: 'w2q10', num: 'Q10', text: 'Book reviews must provide an overall ________ of the content of a book.', type: 'single',
       options: ['praise', 'evaluation', 'summary only', 'plot'],
       correct: [1],
-      explanation: 'A standard book review must present an overall <strong>evaluation</strong> of the content. It points out merit and pitfalls, introduces the book to readers, and offers an unbiased view to augment the reader\'s interest.'
+      explanation: 'A standard book review must present an overall <strong>evaluation</strong> of the content. It points out merit and pitfalls and offers an unbiased view.'
+    },
+  ],
+  week3: [
+    { id: 'w3q1', num: 'Q1', text: 'Which of the following must be included in a strong proposal? (Select TWO)', type: 'multi',
+      options: ['Irrelevant comparisons', 'Graphic appeal', 'Personal anecdotes', 'Persuasiveness'],
+      correct: [1, 3],
+      explanation: 'A strong proposal must use <strong>graphic appeal</strong> (visuals, data, charts) and be <strong>persuasive</strong> to convince the reader about the value of the idea. Irrelevant comparisons and personal anecdotes weaken proposals.'
+    },
+    { id: 'w3q2', num: 'Q2', text: 'Which of these components must be included in a strong grant proposal? (Select TWO)', type: 'multi',
+      options: ['Present the significance of the project', 'Inflate the project\'s impact', 'Criticise competing agencies', 'Provide an organisational overview'],
+      correct: [0, 3],
+      explanation: 'A grant proposal must <strong>present the significance of the project</strong> and <strong>provide an organisational overview</strong>. Inflating impact or criticising competitors undermines credibility.'
+    },
+    { id: 'w3q3', num: 'Q3', text: 'Which of the following must be demonstrated in a good research proposal? (Select TWO)', type: 'multi',
+      options: ['Entertainment value', 'Achievability', 'Guaranteed results', 'Context'],
+      correct: [1, 3],
+      explanation: 'A good research proposal must demonstrate <strong>achievability</strong> (showing the project can be done) and <strong>context</strong> (showing expertise and understanding of the current state of research). Entertainment value and guaranteed results are not required components.'
+    },
+    { id: 'w3q4', num: 'Q4', text: 'What are the key components of the introduction of a proposal? (Select TWO)', type: 'multi',
+      options: ['Organisational overview', 'Detailed CV of all team members', 'Statement of need', 'Marketing slogans'],
+      correct: [0, 2],
+      explanation: 'The introduction of a grant proposal must include an <strong>organisational overview</strong> (who is applying) and a <strong>statement of need</strong> (the problem being addressed). CVs and marketing slogans are not key introduction components.'
+    },
+    { id: 'w3q5', num: 'Q5', text: 'Which of the following are the elements of research writing? (Select TWO)', type: 'multi',
+      options: ['Abstract', 'Results/Findings', 'Weekly schedule', 'Personal biography'],
+      correct: [0, 1],
+      explanation: 'Research writing follows a structured format. <strong>Abstract</strong> and <strong>Results/Findings</strong> are standard elements. The full structure includes: Abstract, Introduction, Literature Review, Methodology, Results/Findings, Discussion, Conclusion, Appendices, and References.'
+    },
+    { id: 'w3q6', num: 'Q6', text: 'A title in academic writing should never include a question.', type: 'single',
+      options: ['True', 'False'],
+      correct: [1],
+      explanation: 'This is <strong>False</strong>. Titles can include questions if relevant — it depends on the purpose and style of writing. Academic titles may be framed as questions to provoke thought or highlight the research inquiry.'
+    },
+    { id: 'w3q7', num: 'Q7', text: 'Book chapters involve peer review and integration with the book\'s theme.', type: 'single',
+      options: ['True', 'False'],
+      correct: [0],
+      explanation: 'This is <strong>True</strong>. Book chapters in a research context typically undergo peer review and editorial process, and they are integrated with the overall theme of the book to ensure consistency and cohesion.'
+    },
+    { id: 'w3q8', num: 'Q8', text: 'Footnotes are typically more detailed in humanities writing.', type: 'single',
+      options: ['True', 'False'],
+      correct: [0],
+      explanation: 'This is <strong>True</strong>. Humanities disciplines use footnotes extensively for explanations and references, often providing additional context and commentary that goes beyond simple citations.'
+    },
+    { id: 'w3q9', num: 'Q9', text: 'Proposals act as records of information and reflect a company\'s image.', type: 'single',
+      options: ['True', 'False'],
+      correct: [0],
+      explanation: 'This is <strong>True</strong>. Proposals serve as records of information, bring monetary gains to the organization, <strong>reflect the company\'s image</strong>, and generate awareness. They document professionalism and quality.'
+    },
+    { id: 'w3q10', num: 'Q10', text: 'Conference papers have higher academic value than journal articles.', type: 'single',
+      options: ['True', 'False'],
+      correct: [1],
+      explanation: 'This is <strong>False</strong>. The academic value of a conference paper is usually <strong>less than</strong> that of a journal article. Journal articles generally undergo more rigorous peer review and are considered higher in academic standing.'
     },
   ]
 };
@@ -329,22 +383,14 @@ let scores = { correct: 0, wrong: 0, answered: 0 };
 let multiSelected = {};
 let currentWeek = 'week1';
 
-// We keep a fresh shuffled version for each week
 let displayedQuestions = {};
 
-// --- Shuffle questions and shuffle options in each question ---
 function shuffleWeekQuestions(week) {
-  // Deep copy questions
   const original = quizData[week];
   let questions = original.map(q => {
-    // Deep copy question
     const qCopy = JSON.parse(JSON.stringify(q));
-
-    // Shuffle options, and update correct indices accordingly
     let indices = qCopy.options.map((_, i) => i);
     shuffleArray(indices);
-
-    // Build new options, and track new correct
     let newOptions = [];
     let newCorrect = [];
     indices.forEach((fromIdx, newIdx) => {
@@ -353,16 +399,10 @@ function shuffleWeekQuestions(week) {
     });
     qCopy.options = newOptions;
     qCopy.correct = newCorrect;
-
     return qCopy;
   });
-
-  // Shuffle question order in the week
   shuffleArray(questions);
-
-  // Renumber (Q1, Q2...) after shuffle
   questions.forEach((q, idx) => q.num = `Q${idx + 1}`);
-
   displayedQuestions[week] = questions;
 }
 
@@ -372,21 +412,23 @@ function showWeek(week, btn) {
   btn.classList.add('active');
   document.getElementById('week1').style.display = week === 'week1' ? '' : 'none';
   document.getElementById('week2').style.display = week === 'week2' ? '' : 'none';
-  buildQuiz(week); // Rebuild that week's questions/option order fresh when visiting
+  document.getElementById('week3').style.display = week === 'week3' ? '' : 'none';
+  buildQuiz(week);
 }
+
 function buildQuiz(weekToBuild = null) {
-  // On first load or reset, shuffle both week1/week2. On tab change, only shuffle the shown week.
   if (weekToBuild) {
     shuffleWeekQuestions(weekToBuild);
     renderWeek(weekToBuild);
   } else {
-    ['week1','week2'].forEach(week => {
+    ['week1','week2','week3'].forEach(week => {
       shuffleWeekQuestions(week);
       renderWeek(week);
     });
   }
   updateProgress();
 }
+
 function renderWeek(week) {
   const container = document.getElementById(week);
   container.innerHTML = '';
@@ -524,10 +566,10 @@ function countTotal() {
 }
 
 function findQ(qid) {
-  // Search in displayedQuestions to match current shuffled order
   return (
     (displayedQuestions.week1 && displayedQuestions.week1.find(x=>x.id===qid)) ||
     (displayedQuestions.week2 && displayedQuestions.week2.find(x=>x.id===qid)) ||
+    (displayedQuestions.week3 && displayedQuestions.week3.find(x=>x.id===qid)) ||
     null
   );
 }
@@ -539,7 +581,6 @@ function resetAll() {
   updateCounters();
 }
 
-// On page load, shuffle both weeks
 buildQuiz();
 
 function updateCounters() {
