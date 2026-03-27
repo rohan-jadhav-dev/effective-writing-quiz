@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Effective Writing — Quiz Practice</title>
+<title>Effective Writing — Complete Quiz (Weeks 1–5)</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -27,115 +27,155 @@
     min-height: 100vh;
     padding: 0 0 80px;
   }
-  header {
-    background: linear-gradient(135deg, #1a1025 0%, #0e0e1a 100%);
-    border-bottom: 1px solid var(--border);
-    padding: 32px 24px 28px;
-    text-align: center;
+
+  /* College Header */
+  .college-header {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f4ed 100%);
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    border-bottom: 3px solid #b8860b;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.25);
     position: relative;
     overflow: hidden;
   }
-  header::before {
+  .college-header::after {
     content: '';
     position: absolute;
-    top: -60px; left: 50%; transform: translateX(-50%);
-    width: 500px; height: 200px;
-    background: radial-gradient(ellipse, rgba(240,192,64,0.12) 0%, transparent 70%);
-    pointer-events: none;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #8B1A1A, #b8860b, #8B1A1A);
+    animation: shimmerLine 3s linear infinite;
+    background-size: 200% 100%;
+  }
+  @keyframes shimmerLine {
+    0%   { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+  .college-logo-wrap {
+    flex-shrink: 0;
+    animation: logoFloat 3.5s ease-in-out infinite;
+    filter: drop-shadow(0 4px 8px rgba(139,26,26,0.3));
+  }
+  @keyframes logoFloat {
+    0%,100% { transform: translateY(0px) rotate(0deg); }
+    50%      { transform: translateY(-6px) rotate(0.5deg); }
+  }
+  .college-logo-svg { width: 58px; height: 58px; display: block; }
+  .college-info { flex: 1; text-align: center; }
+  .c-name {
+    font-size: clamp(0.72rem, 1.85vw, 1.05rem);
+    font-weight: 800;
+    color: #8B1A1A;
+    line-height: 1.3;
+    animation: slideDown 0.6s ease both;
+  }
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .c-sub {
+    font-size: 0.66rem;
+    color: #666;
+    margin-top: 2px;
+    font-style: italic;
+  }
+  .c-dept-wrap { margin-top: 5px; }
+  .c-dept {
+    font-size: 0.76rem;
+    font-weight: 700;
+    color: #1a237e;
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 99px;
+    background: linear-gradient(90deg, rgba(26,35,126,0.08), rgba(184,134,11,0.08));
+    letter-spacing: 0.3px;
+    border: 1px solid rgba(184,134,11,0.25);
+  }
+  .c-dept::before { content: '✦ '; color: #b8860b; font-size: 0.6rem; }
+  .c-dept::after  { content: ' ✦'; color: #b8860b; font-size: 0.6rem; }
+  .r-badge {
+    flex-shrink: 0;
+    background: #c0392b;
+    color: #fff;
+    font-weight: 900;
+    font-size: 0.95rem;
+    padding: 6px 12px;
+    border-radius: 6px;
+    letter-spacing: 1px;
+    text-align: center;
+    box-shadow: 0 3px 10px rgba(192,57,43,0.35);
+  }
+  .r-badge small { display: block; font-size: 0.54rem; letter-spacing: 2px; font-weight: 400; }
+
+  header {
+    background: linear-gradient(135deg, #1a1025 0%, #0e0e1a 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 26px 24px 20px;
+    text-align: center;
+    position: relative;
   }
   header h1 {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-size: clamp(1.4rem, 4vw, 2.2rem);
     font-weight: 900;
-    letter-spacing: -0.5px;
     color: var(--accent);
   }
-  header p { margin-top: 6px; color: var(--muted); font-size: 0.95rem; font-weight: 300; }
-  .score-bar {
-    display: flex;
-    justify-content: center;
-    gap: 24px;
-    flex-wrap: wrap;
-    margin: 20px 16px 0;
-  }
-  .score-pill {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 99px;
-    padding: 8px 20px;
-    font-size: 0.88rem;
-    font-weight: 500;
+  header p { margin-top: 4px; color: var(--muted); font-size: 0.9rem; }
+  .dev-credit {
+    margin-top: 10px;
+    font-size: 0.8rem;
     color: var(--muted);
-    display: flex; align-items: center; gap: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
   }
-  .score-pill span { color: var(--text); font-weight: 600; }
-  .score-pill.correct-pill span { color: var(--correct); }
-  .score-pill.wrong-pill span { color: var(--wrong); }
-  .progress-wrap { max-width: 700px; margin: 24px auto 0; padding: 0 20px; }
+  .dev-name { color: var(--accent); font-weight: 700; animation: devBob 3s ease-in-out infinite; display: inline-block; }
+  .dev-name:last-child { animation-delay: 0.5s; }
+  @keyframes devBob {
+    0%,100% { transform: translateY(0); }
+    50%      { transform: translateY(-3px); }
+  }
+  .score-bar { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin: 20px 16px 0; }
+  .score-pill {
+    background: var(--card); border: 1px solid var(--border); border-radius: 99px;
+    padding: 8px 20px; font-size: 0.88rem; display: flex; align-items: center; gap: 8px;
+  }
+  .progress-wrap { max-width: 700px; margin: 20px auto 0; padding: 0 20px; }
   .progress-track { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
   .progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--accent2), var(--accent));
-    border-radius: 2px;
+    height: 100%; background: linear-gradient(90deg, var(--accent2), var(--accent));
     transition: width 0.4s ease;
   }
   main { max-width: 720px; margin: 0 auto; padding: 28px 16px 0; }
   .week-tabs { display: flex; gap: 10px; margin-bottom: 28px; flex-wrap: wrap; }
   .week-tab {
-    padding: 8px 20px;
-    border-radius: 99px;
-    border: 1.5px solid var(--border);
-    background: transparent;
-    color: var(--muted);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.88rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
+    padding: 8px 20px; border-radius: 99px; border: 1.5px solid var(--border);
+    background: transparent; color: var(--muted); font-weight: 500; cursor: pointer;
   }
-  .week-tab:hover { border-color: var(--accent2); color: var(--text); }
   .week-tab.active { background: var(--accent); border-color: var(--accent); color: #0e0e12; font-weight: 700; }
   .q-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 28px 28px 24px;
-    margin-bottom: 18px;
-    transition: border-color 0.3s;
-    animation: slideIn 0.35s ease;
+    background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 28px 28px 24px; margin-bottom: 18px; transition: border-color 0.3s;
   }
-  @keyframes slideIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
   .q-card.answered-correct { border-color: var(--correct); }
   .q-card.answered-wrong { border-color: var(--wrong); }
-  .q-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
-  .q-num {
-    background: var(--accent2); color: #fff;
-    font-size: 0.75rem; font-weight: 700;
-    padding: 3px 10px; border-radius: 99px; letter-spacing: 0.5px;
-  }
-  .q-type { font-size: 0.75rem; color: var(--muted); font-weight: 400; }
-  .q-text { font-size: 1rem; line-height: 1.6; font-weight: 500; color: var(--text); margin-bottom: 20px; }
+  .q-meta { display: flex; gap: 10px; margin-bottom: 14px; align-items: center; }
+  .q-num { background: var(--accent2); color: #fff; font-size: 0.75rem; font-weight: 700; padding: 3px 10px; border-radius: 99px; }
+  .q-text { font-size: 1rem; line-height: 1.6; font-weight: 500; margin-bottom: 20px; }
   .options { display: flex; flex-direction: column; gap: 10px; }
   .option-btn {
-    display: flex; align-items: flex-start; gap: 12px;
-    padding: 13px 16px;
-    background: var(--surface);
-    border: 1.5px solid var(--border);
-    border-radius: 10px;
-    cursor: pointer; text-align: left;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.93rem; color: var(--text);
-    transition: all 0.18s; width: 100%; font-weight: 400;
+    display: flex; align-items: flex-start; gap: 12px; padding: 13px 16px;
+    background: var(--surface); border: 1.5px solid var(--border); border-radius: 10px;
+    cursor: pointer; font-size: 0.93rem; color: var(--text); width: 100%;
   }
   .option-btn:hover:not(:disabled) { border-color: var(--accent2); background: rgba(123,94,167,0.1); }
   .option-btn .opt-label {
-    min-width: 22px; height: 22px; border-radius: 50%;
-    border: 1.5px solid var(--border);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 0.78rem; font-weight: 700; flex-shrink: 0; margin-top: 1px;
-    transition: all 0.18s;
+    min-width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid var(--border);
+    display: flex; align-items: center; justify-content: center; font-size: 0.78rem; font-weight: 700; flex-shrink: 0;
   }
-  .option-btn:hover:not(:disabled) .opt-label { border-color: var(--accent2); color: var(--accent2); }
   .option-btn.correct { border-color: var(--correct); background: rgba(62,207,142,0.08); }
   .option-btn.correct .opt-label { background: var(--correct); border-color: var(--correct); color: #0e0e12; }
   .option-btn.wrong { border-color: var(--wrong); background: rgba(244,106,106,0.08); }
@@ -143,451 +183,332 @@
   .option-btn.reveal-correct { border-color: var(--correct); background: rgba(62,207,142,0.05); }
   .option-btn.reveal-correct .opt-label { border-color: var(--correct); color: var(--correct); }
   .option-btn:disabled { cursor: default; }
-  .multi-note {
-    font-size: 0.78rem; color: var(--accent); margin-bottom: 12px; font-weight: 500;
-    padding: 6px 12px; background: rgba(240,192,64,0.07); border-radius: 8px; display: inline-block;
-  }
+  .multi-note { font-size: 0.78rem; color: var(--accent); margin-bottom: 12px; padding: 6px 12px; background: rgba(240,192,64,0.07); border-radius: 8px; display: inline-block; }
   .submit-multi {
-    margin-top: 14px; padding: 10px 24px;
-    background: var(--accent2); border: none; border-radius: 99px;
-    color: #fff; font-family: 'DM Sans', sans-serif;
-    font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: opacity 0.2s;
+    margin-top: 14px; padding: 10px 24px; background: var(--accent2); border: none; border-radius: 99px;
+    color: #fff; font-weight: 600; cursor: pointer;
   }
-  .submit-multi:hover { opacity: 0.85; }
   .submit-multi:disabled { opacity: 0.4; cursor: default; }
   .explanation {
-    margin-top: 14px; padding: 14px 16px;
-    background: rgba(255,255,255,0.03);
-    border-left: 3px solid var(--accent2);
-    border-radius: 0 8px 8px 0;
-    font-size: 0.88rem; color: var(--muted); line-height: 1.6; display: none;
+    margin-top: 14px; padding: 14px 16px; background: rgba(255,255,255,0.03);
+    border-left: 3px solid var(--accent2); border-radius: 0 8px 8px 0;
+    font-size: 0.88rem; color: var(--muted); display: none;
   }
-  .explanation.show { display: block; animation: fadeIn 0.25s ease; }
-  .explanation strong { color: var(--text); }
-  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-  .result-badge {
-    display: inline-flex; align-items: center; gap: 6px;
-    margin-top: 12px; padding: 5px 14px; border-radius: 99px;
-    font-size: 0.82rem; font-weight: 700; display: none;
-  }
-  .result-badge.show { display: inline-flex; animation: fadeIn 0.2s ease; }
+  .explanation.show { display: block; }
+  .result-badge { display: none; align-items: center; gap: 6px; margin-top: 12px; padding: 5px 14px; border-radius: 99px; font-size: 0.82rem; font-weight: 700; }
+  .result-badge.show { display: inline-flex; }
   .result-badge.correct { background: rgba(62,207,142,0.15); color: var(--correct); }
   .result-badge.wrong { background: rgba(244,106,106,0.15); color: var(--wrong); }
   .reset-wrap { text-align: center; margin-top: 32px; }
   .reset-btn {
-    padding: 12px 32px; border-radius: 99px;
-    border: 1.5px solid var(--border); background: transparent;
-    color: var(--muted); font-family: 'DM Sans', sans-serif;
-    font-size: 0.9rem; cursor: pointer; transition: all 0.2s;
+    padding: 12px 32px; border-radius: 99px; border: 1.5px solid var(--border); background: transparent;
+    color: var(--muted); cursor: pointer;
   }
   .reset-btn:hover { border-color: var(--accent); color: var(--accent); }
 </style>
 </head>
 <body>
+
+<div class="college-header">
+  <div class="college-logo-wrap">
+    <svg class="college-logo-svg" viewBox="0 0 58 58" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="29" cy="29" r="28" fill="#8B1A1A" stroke="#b8860b" stroke-width="2.2"/>
+      <circle cx="29" cy="29" r="24" fill="none" stroke="#FFD700" stroke-width="0.8" opacity="0.55"/>
+      <ellipse cx="29" cy="23" rx="9" ry="8" fill="#FFD700" opacity="0.9"/>
+      <ellipse cx="29" cy="22" rx="5.5" ry="5.5" fill="#8B1A1A"/>
+      <circle cx="27" cy="21" r="1.1" fill="#FFD700"/>
+      <circle cx="31" cy="21" r="1.1" fill="#FFD700"/>
+      <text x="29" y="36" text-anchor="middle" font-size="5.8" fill="#FFD700" font-weight="bold">RAISONI</text>
+      <text x="29" y="43" text-anchor="middle" font-size="4.3" fill="#fff">COLLEGE</text>
+    </svg>
+  </div>
+  <div class="college-info">
+    <div class="c-name">G H Raisoni College of Engineering and Management, Pune</div>
+    <div class="c-sub">(Autonomous Institute · NAAC A+ Grade)</div>
+    <div class="c-dept-wrap"><span class="c-dept">Department of Computer Engineering</span></div>
+  </div>
+  <div class="r-badge">raisoni<small>EDUCATION</small></div>
+</div>
+
 <header>
   <h1>Effective Writing — NPTEL</h1>
-  <p>Practice Assignment Questions · JAN 2026</p>
+  <p>Practice Assignment · Weeks 1 to 5 (Business & Academic)</p>
+  <div class="dev-credit"><span class="dev-name">Rohan</span> <span>✦</span> <span class="dev-name">Yasir</span></div>
 </header>
+
 <div class="score-bar">
-  <div class="score-pill">Questions: <span id="totalCount">0</span></div>
+  <div class="score-pill">Total: <span id="totalCount">0</span></div>
   <div class="score-pill correct-pill">Correct: <span id="correctCount">0</span></div>
   <div class="score-pill wrong-pill">Wrong: <span id="wrongCount">0</span></div>
 </div>
-<div class="progress-wrap">
-  <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
-</div>
+<div class="progress-wrap"><div class="progress-track"><div class="progress-fill" id="progressFill"></div></div></div>
+
 <main>
   <div class="week-tabs">
-    <button class="week-tab active" onclick="showWeek('week1', this)">Week 1</button>
-    <button class="week-tab" onclick="showWeek('week2', this)">Week 2</button>
-    <button class="week-tab" onclick="showWeek('week3', this)">Week 3</button>
+    <button class="week-tab active" onclick="showWeek('week1',this)">Week 1</button>
+    <button class="week-tab" onclick="showWeek('week2',this)">Week 2</button>
+    <button class="week-tab" onclick="showWeek('week3',this)">Week 3</button>
+    <button class="week-tab" onclick="showWeek('week4',this)">Week 4</button>
+    <button class="week-tab" onclick="showWeek('week5',this)">Week 5</button>
   </div>
-  <div id="week1"></div>
-  <div id="week2" style="display:none"></div>
-  <div id="week3" style="display:none"></div>
-  <div class="reset-wrap" id="mainResetWrap">
-    <button class="reset-btn" onclick="resetAll()">↺ Reset All Answers</button>
-  </div>
+  <div id="week1"></div><div id="week2" style="display:none"></div><div id="week3" style="display:none"></div>
+  <div id="week4" style="display:none"></div><div id="week5" style="display:none"></div>
+  <div class="reset-wrap"><button class="reset-btn" onclick="resetAll()">↺ Reset All Answers</button></div>
 </main>
+
 <script>
-// --- shuffle util, Fisher-Yates ---
-function shuffleArray(arr) {
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
+  // ===================== WEEK 5 (Business Writing - based on PDF) =====================
+  const week5Questions = [
+    { id:'w5q1', num:'Q1', type:'single', text:'Which of the following are recommended while writing a document for business purposes?',
+      options:['Long, decorative sentences','Short and simple sentences','Highly figurative language','Archaic vocabulary'], correct:[1],
+      explanation:'Business writing should be clear and concise. <strong>Short and simple sentences</strong> improve readability and understanding.' },
+    { id:'w5q2', num:'Q2', type:'single', text:'What is the primary purpose of using a memorandum?',
+      options:['External communication','Internal communication','Personal letters','Complaints'], correct:[1],
+      explanation:'A memorandum (memo) is used for <strong>internal communication</strong> within an organization — also called inter-office memo.' },
+    { id:'w5q3', num:'Q3', type:'single', text:'For which of the following writings is the direct pattern suitable?',
+      options:['Sensitive news','Bad news','Routine requests','Legal notices'], correct:[2],
+      explanation:'<strong>Routine requests, responses, orders, acknowledgements, non-sensitive memos</strong> use the direct pattern (main point first).' },
+    { id:'w5q4', num:'Q4', type:'single', text:'Which of the following factors should be kept in mind while writing a Complaint letter?',
+      options:['Be sarcastic','Exaggerate losses','Use an abusive tone','Avoid unnecessary chronology'], correct:[3],
+      explanation:'A complaint letter should <strong>avoid unnecessary chronology</strong>, be objective, and never sarcastic or abusive.' },
+    { id:'w5q5', num:'Q5', type:'single', text:'Which of the following is an essential feature of business letters?',
+      options:['Humour','Ambiguity','Exaggeration','Cordiality'], correct:[3],
+      explanation:'Essential features include clarity, conciseness, courtesy, and <strong>cordiality</strong> — maintaining a warm, professional tone.' },
+    { id:'w5q6', num:'Q6', type:'single', text:'Memos must contain "To," "From," "Date," and ______.',
+      options:['Object','Subject'], correct:[1],
+      explanation:'Memos require a <strong>Subject</strong> line to clearly state the purpose and help readers understand quickly.' },
+    { id:'w5q7', num:'Q7', type:'single', text:'A business letter should end with a clear ______ to action.',
+      options:['call','determination'], correct:[0],
+      explanation:'End with a <strong>call to action</strong> — it tells the reader what to do next and fulfills the purpose of the letter.' },
+    { id:'w5q8', num:'Q8', type:'single', text:'Collection letters begin with a ______ tone.',
+      options:['harsh','gentle'], correct:[1],
+      explanation:'Collection letters start with a <strong>gentle and direct</strong> tone, progressing to stern messages if needed.' },
+    { id:'w5q9', num:'Q9', type:'single', text:'Sales letters usually begin with a ______ statement.',
+      options:['sarcastic','striking'], correct:[1],
+      explanation:'A strong opening with a <strong>striking</strong> statement (question, anecdote, special offer) grabs attention.' },
+    { id:'w5q10', num:'Q10', type:'single', text:'Business writers should avoid ______ phrases to maintain conciseness.',
+      options:['flabby','familiar'], correct:[0],
+      explanation:'<strong>Flabby phrases</strong> are wordy and unnecessary; avoiding them keeps writing clear and concise.' }
+  ];
+
+  // Combine all weeks (existing weeks 1-4 + week5)
+  const originalWeeks = {
+    week1: [
+      { id:'w1q1', num:'Q1', type:'single', text:'Which of the following is mentioned as an aim of writing?', options:['To entertain economically','To persuade','To encourage oral communication','To avoid record-keeping'], correct:[1], explanation:'Writing aims include describing, explaining, instructing, and <strong>persuading</strong>.' },
+      { id:'w1q2', num:'Q2', type:'single', text:'Which of the following is an important requirement of effective writing?', options:['Only natural talent','Hard work and training','Minimal effort','Avoidance of reading'], correct:[1], explanation:'Good writing requires <strong>hard work and training</strong>.' },
+      { id:'w1q3', num:'Q3', type:'single', text:'Which of the following is NOT mentioned as a standard rule of correctness?', options:['Proper capitalisation','Correct articles','Avoid double negatives','Use of ornamental poetic devices'], correct:[3], explanation:'<strong>Ornamental poetic devices</strong> are not a correctness rule.' },
+      { id:'w1q4', num:'Q4', type:'single', text:'Which CANNOT be included while differentiating oral vs written?', options:['Oral uses spoken words','Written requires script','Written provides records','Oral communication is slower'], correct:[3], explanation:'Oral communication is <strong>faster</strong>, not slower.' },
+      { id:'w1q5', num:'Q5', type:'single', text:'Major feature of oral communication?', options:['Messages edited','Instant feedback','Permanent record','No misinterpretation'], correct:[1], explanation:'<strong>Instant feedback</strong> is key.' },
+      { id:'w1q6', num:'Q6', type:'multi', text:'Advantages of effective writing? (Select TWO)', options:['Promotes creative writing','Falters communication','Reduces research need','Trains scientific document prep'], correct:[0,3], explanation:'Promotes creative writing & trains scientific preparation.' },
+      { id:'w1q7', num:'Q7', type:'multi', text:'Stages of writing? (Select TWO)', options:['Pre-writing','Ghost-writing','Re-writing','Translating'], correct:[0,2], explanation:'Pre-writing, Writing, <strong>Re-writing</strong>.' },
+      { id:'w1q8', num:'Q8', type:'multi', text:'Verbs NOT used in progressive forms? (Select TWO)', options:['Resemble','Play','Taste (perception)','Write'], correct:[0,2], explanation:'Stative verbs: resemble & taste (perception).' },
+      { id:'w1q9', num:'Q9', type:'multi', text:'Essential communication components? (Select TWO)', options:['Message','Sender','Disturbance','Aesthetics'], correct:[0,1], explanation:'Sender + Message essential.' },
+      { id:'w1q10', num:'Q10', type:'multi', text:'True about written communication? (Select TWO)', options:['Editing possible','Words reversed after speaking','Misinterpretation less likely','Instant feedback'], correct:[0,2], explanation:'Editing & less misinterpretation.' }
+    ],
+    week2: [
+      { id:'w2q1', num:'Q1', type:'single', text:'NOT a source of ambiguity?', options:['Relative words','Unusual word usage','Ellipsis','Exact antonym'], correct:[3], explanation:'Exact antonyms give clarity.' },
+      { id:'w2q2', num:'Q2', type:'single', text:'Characteristic of good thesis statement?', options:['Long descriptive','Contains main stand','Introduces irrelevant','Unclear'], correct:[1], explanation:'Contains the main stand.' },
+      { id:'w2q3', num:'Q3', type:'single', text:'Correct question tag for "He is coming"?', options:["isn't he?",'is he?',"doesn't he?","won't he?"], correct:[0], explanation:'Positive → "isn\'t he?"' },
+      { id:'w2q4', num:'Q4', type:'single', text:'Original meaning of "essay"?', options:['To narrate','To argue','To attempt','To describe'], correct:[2], explanation:'From French "essai" = to attempt.' },
+      { id:'w2q5', num:'Q5', type:'single', text:'Purpose of keywords in academic writing?', options:['Summarise plot','Represent crucial concepts','Decorate paper','Replace abstract'], correct:[1], explanation:'Represent crucial concepts.' },
+      { id:'w2q6', num:'Q6', type:'single', text:'Meaning depends on words and their ______.', options:['contexts','paratext','grammar','punctuation'], correct:[0], explanation:'Context matters.' },
+      { id:'w2q7', num:'Q7', type:'single', text:'Improper referents create ______.', options:['exactness','ambiguity','clarity','emphasis'], correct:[1], explanation:'Leads to ambiguity.' },
+      { id:'w2q8', num:'Q8', type:'single', text:'Conclusion should not add new ______.', options:['information','paragraph','transition','sentence'], correct:[0], explanation:'No new information.' },
+      { id:'w2q9', num:'Q9', type:'single', text:'Reflective essays deal with ______ subjects.', options:['concrete','abstract','technical','historical'], correct:[1], explanation:'Abstract topics/thoughts.' },
+      { id:'w2q10', num:'Q10', type:'single', text:'Book reviews provide overall ______.', options:['praise','evaluation','summary only','plot'], correct:[1], explanation:'Overall evaluation.' }
+    ],
+    week3: [
+      { id:'w3q1', num:'Q1', type:'multi', text:'Strong proposal must include? (Select TWO)', options:['Irrelevant comparisons','Graphic appeal','Personal anecdotes','Persuasiveness'], correct:[1,3], explanation:'Graphic appeal & persuasiveness.' },
+      { id:'w3q2', num:'Q2', type:'multi', text:'Grant proposal components? (Select TWO)', options:['Present significance','Inflate impact','Criticise agencies','Organisational overview'], correct:[0,3], explanation:'Significance + organizational overview.' },
+      { id:'w3q3', num:'Q3', type:'multi', text:'Good research proposal demonstrates? (Select TWO)', options:['Entertainment','Achievability','Guaranteed results','Context'], correct:[1,3], explanation:'Achievability & context.' },
+      { id:'w3q4', num:'Q4', type:'multi', text:'Introduction of proposal includes? (Select TWO)', options:['Organisational overview','Detailed CVs','Statement of need','Slogans'], correct:[0,2], explanation:'Overview + need statement.' },
+      { id:'w3q5', num:'Q5', type:'multi', text:'Elements of research writing? (Select TWO)', options:['Abstract','Results/Findings','Weekly schedule','Biography'], correct:[0,1], explanation:'Abstract and Findings.' },
+      { id:'w3q6', num:'Q6', type:'single', text:'A title should never include a question.', options:['True','False'], correct:[1], explanation:'False — questions can be used.' },
+      { id:'w3q7', num:'Q7', type:'single', text:'Book chapters involve peer review and integration.', options:['True','False'], correct:[0], explanation:'True, they align with book theme.' },
+      { id:'w3q8', num:'Q8', type:'single', text:'Footnotes are more detailed in humanities.', options:['True','False'], correct:[0], explanation:'True.' },
+      { id:'w3q9', num:'Q9', type:'single', text:'Proposals reflect company image.', options:['True','False'], correct:[0], explanation:'True — records and image.' },
+      { id:'w3q10', num:'Q10', type:'single', text:'Conference papers have higher value than journal articles.', options:['True','False'], correct:[1], explanation:'False — journal articles more rigorous.' }
+    ],
+    week4: [
+      { id:'w4q1', num:'Q1', type:'single', text:'Mainly accommodate when writing for internet?', options:['Long paragraphs','Skim-and-scan','Poetic structures','Print formatting'], correct:[1], explanation:'Skim and scan style.' },
+      { id:'w4q2', num:'Q2', type:'single', text:'Latin root of "advertising"?', options:['To shout','To turn towards','To sell','To run'], correct:[1], explanation:'Advertere = to turn towards.' },
+      { id:'w4q3', num:'Q3', type:'single', text:'What does AIDA stand for?', options:['Attention, Interest, Desire, Action','Ask, Interpret, Demonstrate','Attract, Illustrate, Deliver','Attention, Information, Decision'], correct:[0], explanation:'Attention, Interest, Desire, Action.' },
+      { id:'w4q4', num:'Q4', type:'single', text:'Who coined "weblog"?', options:['Evan Williams','Jorn Barger','Peter Merholz','Brian Tracy'], correct:[1], explanation:'Jorn Barger in 1997.' },
+      { id:'w4q5', num:'Q5', type:'single', text:'Good blog introduction includes?', options:['Random fact','Avoid expectations','Engaging hook','Ignore keywords'], correct:[2], explanation:'Start with engaging hook.' },
+      { id:'w4q6', num:'Q6', type:'single', text:'Proofreading improves ________ of blog writing.', options:['quantity','quality'], correct:[1], explanation:'Enhances quality.' },
+      { id:'w4q7', num:'Q7', type:'single', text:'Three stages of writing: pre-writing, writing, and ________.', options:['revising','preparing'], correct:[0], explanation:'Revising.' },
+      { id:'w4q8', num:'Q8', type:'single', text:'SEO makes content ________ by search engines.', options:['discoverable','readable'], correct:[0], explanation:'Discoverable.' },
+      { id:'w4q9', num:'Q9', type:'single', text:'Classified advertisements rely mainly on ________.', options:['language','visuals'], correct:[0], explanation:'Text-based language.' },
+      { id:'w4q10', num:'Q10', type:'single', text:'Business writing is characterized by ________ and objectivity.', options:['partiality','impartiality'], correct:[1], explanation:'Impartiality.' }
+    ],
+    week5: week5Questions
+  };
+
+  let scores = { correct:0, wrong:0, answered:0 };
+  let multiSelected = {};
+  let displayedQuestions = { week1:[], week2:[], week3:[], week4:[], week5:[] };
+
+  function shuffleArray(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
   }
-}
 
-// --------- QUIZ DATA ---------
-const quizData = {
-  week1: [
-    { id: 'w1q1', num: 'Q1', text: 'Which of the following is mentioned as an aim of writing?', type: 'single',
-      options: ['To entertain economically', 'To persuade', 'To encourage oral communication', 'To avoid record-keeping'],
-      correct: [1],
-      explanation: 'Writing has many aims including to describe, explain, instruct, specify, evaluate, <strong>persuade</strong>, concede and apologize, protest, and reject. "To persuade" is one of the listed aims.'
-    },
-    { id: 'w1q2', num: 'Q2', text: 'Which of the following is an important requirement of effective writing?', type: 'single',
-      options: ['Only natural talent', 'Hard work and training', 'Minimal effort', 'Avoidance of reading'],
-      correct: [1],
-      explanation: 'Good writing develops through practice and learning. It is not just based on natural talent — <strong>hard work and training</strong> are essential requirements.'
-    },
-    { id: 'w1q3', num: 'Q3', text: 'Which of the following is NOT mentioned as a standard rule of correctness in effective writing?', type: 'single',
-      options: ['Proper use of capitalisation', 'Correct use of articles', 'Avoidance of double negatives', 'Use of ornamental poetic devices'],
-      correct: [3],
-      explanation: 'Standard rules of correctness include capitalization, double negatives, verb use, SVA, number agreement, sentence structure, and use of voice. <strong>Ornamental poetic devices</strong> are not a rule — correct writing focuses on clarity and grammar.'
-    },
-    { id: 'w1q4', num: 'Q4', text: 'Which of the following CANNOT be included while differentiating between oral and written communication?', type: 'single',
-      options: ['Oral communication uses spoken words', 'Written communication requires script', 'Written communication provides proper records', 'Oral communication is slower'],
-      correct: [3],
-      explanation: '<strong>Oral communication is usually FASTER than written communication</strong>, not slower. Hence, "Oral communication is slower" is incorrect and cannot be used as a differentiator.'
-    },
-    { id: 'w1q5', num: 'Q5', text: 'Which of the following is a major feature of oral communication?', type: 'single',
-      options: ['Messages can be edited', 'Instant feedback', 'Permanent record', 'No chance of misinterpretation'],
-      correct: [1],
-      explanation: 'In oral communication, <strong>instant feedback</strong> is received from the recipient, which is not possible in written communication. Editing is a feature of written, not oral.'
-    },
-    { id: 'w1q6', num: 'Q6', text: 'Which of the following are advantages of effective writing mentioned in the lecture? (Select TWO)', type: 'multi',
-      options: ['Promotes creative writing', 'Falters in communication in various situations', 'Reduces the need for research', 'Trains us to prepare documents scientifically'],
-      correct: [0, 3],
-      explanation: 'Effective writing <strong>promotes creative writing skills</strong> and <strong>trains us to draft need-based documents scientifically</strong>. These are two of the listed advantages.'
-    },
-    { id: 'w1q7', num: 'Q7', text: 'Which of the following are listed as stages of writing? (Select TWO)', type: 'multi',
-      options: ['Pre-writing', 'Ghost-writing', 'Re-writing', 'Translating'],
-      correct: [0, 2],
-      explanation: 'The three stages of writing are: <strong>Pre-writing</strong>, Writing, and <strong>Re-writing</strong>. Ghost-writing and translating are not listed stages.'
-    },
-    { id: 'w1q8', num: 'Q8', text: 'Which of the following verbs CANNOT be used in progressive (continuous) forms? (Select TWO)', type: 'multi',
-      options: ['Resemble', 'Play', 'Taste (as a verb of perception)', 'Write'],
-      correct: [0, 2],
-      explanation: '<strong>Resemble</strong> is a relational/stative verb that cannot take progressive forms. <strong>Taste as a verb of perception</strong> also cannot be used in progressive/continuous forms. Play and Write are regular action verbs that can be used in continuous tense.'
-    },
-    { id: 'w1q9', num: 'Q9', text: 'Essential components of communication include: (Select TWO)', type: 'multi',
-      options: ['Message', 'Sender', 'Disturbance', 'Aesthetics'],
-      correct: [0, 1],
-      explanation: 'Communication requires a <strong>sender</strong> and a <strong>message</strong> as essential components. Other elements like channel and receiver also exist, but disturbance and aesthetics are not essential components.'
-    },
-    { id: 'w1q10', num: 'Q10', text: 'Which of the following are true regarding written communication? (Select TWO)', type: 'multi',
-      options: ['Editing is possible', 'Words can be reversed after speaking', 'Misinterpretation is less likely', 'Instant feedback is available'],
-      correct: [0, 2],
-      explanation: 'Written communication allows <strong>editing before sending</strong> and <strong>misinterpretation is less likely</strong>. Words once uttered in oral communication cannot be reversed, and instant feedback is a feature of oral, not written, communication.'
-    },
-  ],
-  week2: [
-    { id: 'w2q1', num: 'Q1', text: 'Which of the following is NOT a source of ambiguity?', type: 'single',
-      options: ['Relative words', 'Unusual word usage', 'Ellipsis', 'Exact antonym'],
-      correct: [3],
-      explanation: '<strong>Exact antonyms</strong> provide clarity and opposite meanings precisely — they are not a source of ambiguity. Relative words, unusual word usage, and ellipsis can all create ambiguity.'
-    },
-    { id: 'w2q2', num: 'Q2', text: 'Which of the following is a characteristic of a good thesis statement?', type: 'single',
-      options: ['Be long and descriptive', 'Contain the main stand', 'Introduce irrelevant ideas', 'Be unclear'],
-      correct: [1],
-      explanation: 'A thesis statement clearly expresses the main idea or argument. It <strong>contains the main stand</strong> of the author, guides the direction of the essay, and clarifies the author\'s position on the topic.'
-    },
-    { id: 'w2q3', num: 'Q3', text: 'Which of the following is the correct question tag for "He is coming"?', type: 'single',
-      options: ["isn't he?", 'is he?', "doesn't he?", "won't he?"],
-      correct: [0],
-      explanation: 'Question tags use the auxiliary verb with opposite polarity. "He is coming" (positive) uses the auxiliary "is" → the tag becomes <strong>"isn\'t he?"</strong> (negative).'
-    },
-    { id: 'w2q4', num: 'Q4', text: 'What does the word "essay" originally mean?', type: 'single',
-      options: ['To narrate', 'To argue', 'To attempt', 'To describe'],
-      correct: [2],
-      explanation: 'The word "essay" originates from the Old French word <em>essai</em> meaning <strong>"trial or attempt"</strong>. It was popularized by French philosopher Michel de Montaigne in 1580.'
-    },
-    { id: 'w2q5', num: 'Q5', text: 'What is the purpose of keywords in academic writing?', type: 'single',
-      options: ['Summarise plot', 'Represent crucial concepts', 'Decorate the paper', 'Replace the abstract'],
-      correct: [1],
-      explanation: 'Keywords <strong>represent crucial concepts</strong> of the paper. They highlight the main ideas, help readers and search systems quickly understand the topic.'
-    },
-    { id: 'w2q6', num: 'Q6', text: 'Meaning of a sentence depends not only on words but on their ________.', type: 'single',
-      options: ['contexts', 'paratext', 'grammar only', 'punctuation'],
-      correct: [0],
-      explanation: 'Words can mean one thing in one context and mean something entirely different in another. Therefore, meaning depends not only on words but on their <strong>contexts</strong>.'
-    },
-    { id: 'w2q7', num: 'Q7', text: 'Improper referents often create ________ in meaning.', type: 'single',
-      options: ['exactness', 'ambiguity', 'clarity', 'emphasis'],
-      correct: [1],
-      explanation: 'Unclear references confuse the reader and lead to multiple possible meanings — i.e., <strong>ambiguity</strong>. Proper use of referents is essential for clear writing.'
-    },
-    { id: 'w2q8', num: 'Q8', text: 'A conclusion of an essay should not add any new ________.', type: 'single',
-      options: ['information', 'paragraph', 'transition', 'sentence'],
-      correct: [0],
-      explanation: 'The conclusion summarizes existing ideas. Introducing new points can confuse the reader. Therefore, a conclusion should <strong>not add any new information</strong>.'
-    },
-    { id: 'w2q9', num: 'Q9', text: 'Reflective essays deal with ________ subjects.', type: 'single',
-      options: ['concrete', 'abstract', 'technical', 'historical'],
-      correct: [1],
-      explanation: 'Reflective writing focuses on thoughts, feelings, and experiences — these are <strong>abstract</strong> rather than concrete topics.'
-    },
-    { id: 'w2q10', num: 'Q10', text: 'Book reviews must provide an overall ________ of the content of a book.', type: 'single',
-      options: ['praise', 'evaluation', 'summary only', 'plot'],
-      correct: [1],
-      explanation: 'A standard book review must present an overall <strong>evaluation</strong> of the content. It points out merit and pitfalls and offers an unbiased view.'
-    },
-  ],
-  week3: [
-    { id: 'w3q1', num: 'Q1', text: 'Which of the following must be included in a strong proposal? (Select TWO)', type: 'multi',
-      options: ['Irrelevant comparisons', 'Graphic appeal', 'Personal anecdotes', 'Persuasiveness'],
-      correct: [1, 3],
-      explanation: 'A strong proposal must use <strong>graphic appeal</strong> (visuals, data, charts) and be <strong>persuasive</strong> to convince the reader about the value of the idea. Irrelevant comparisons and personal anecdotes weaken proposals.'
-    },
-    { id: 'w3q2', num: 'Q2', text: 'Which of these components must be included in a strong grant proposal? (Select TWO)', type: 'multi',
-      options: ['Present the significance of the project', 'Inflate the project\'s impact', 'Criticise competing agencies', 'Provide an organisational overview'],
-      correct: [0, 3],
-      explanation: 'A grant proposal must <strong>present the significance of the project</strong> and <strong>provide an organisational overview</strong>. Inflating impact or criticising competitors undermines credibility.'
-    },
-    { id: 'w3q3', num: 'Q3', text: 'Which of the following must be demonstrated in a good research proposal? (Select TWO)', type: 'multi',
-      options: ['Entertainment value', 'Achievability', 'Guaranteed results', 'Context'],
-      correct: [1, 3],
-      explanation: 'A good research proposal must demonstrate <strong>achievability</strong> (showing the project can be done) and <strong>context</strong> (showing expertise and understanding of the current state of research). Entertainment value and guaranteed results are not required components.'
-    },
-    { id: 'w3q4', num: 'Q4', text: 'What are the key components of the introduction of a proposal? (Select TWO)', type: 'multi',
-      options: ['Organisational overview', 'Detailed CV of all team members', 'Statement of need', 'Marketing slogans'],
-      correct: [0, 2],
-      explanation: 'The introduction of a grant proposal must include an <strong>organisational overview</strong> (who is applying) and a <strong>statement of need</strong> (the problem being addressed). CVs and marketing slogans are not key introduction components.'
-    },
-    { id: 'w3q5', num: 'Q5', text: 'Which of the following are the elements of research writing? (Select TWO)', type: 'multi',
-      options: ['Abstract', 'Results/Findings', 'Weekly schedule', 'Personal biography'],
-      correct: [0, 1],
-      explanation: 'Research writing follows a structured format. <strong>Abstract</strong> and <strong>Results/Findings</strong> are standard elements. The full structure includes: Abstract, Introduction, Literature Review, Methodology, Results/Findings, Discussion, Conclusion, Appendices, and References.'
-    },
-    { id: 'w3q6', num: 'Q6', text: 'A title in academic writing should never include a question.', type: 'single',
-      options: ['True', 'False'],
-      correct: [1],
-      explanation: 'This is <strong>False</strong>. Titles can include questions if relevant — it depends on the purpose and style of writing. Academic titles may be framed as questions to provoke thought or highlight the research inquiry.'
-    },
-    { id: 'w3q7', num: 'Q7', text: 'Book chapters involve peer review and integration with the book\'s theme.', type: 'single',
-      options: ['True', 'False'],
-      correct: [0],
-      explanation: 'This is <strong>True</strong>. Book chapters in a research context typically undergo peer review and editorial process, and they are integrated with the overall theme of the book to ensure consistency and cohesion.'
-    },
-    { id: 'w3q8', num: 'Q8', text: 'Footnotes are typically more detailed in humanities writing.', type: 'single',
-      options: ['True', 'False'],
-      correct: [0],
-      explanation: 'This is <strong>True</strong>. Humanities disciplines use footnotes extensively for explanations and references, often providing additional context and commentary that goes beyond simple citations.'
-    },
-    { id: 'w3q9', num: 'Q9', text: 'Proposals act as records of information and reflect a company\'s image.', type: 'single',
-      options: ['True', 'False'],
-      correct: [0],
-      explanation: 'This is <strong>True</strong>. Proposals serve as records of information, bring monetary gains to the organization, <strong>reflect the company\'s image</strong>, and generate awareness. They document professionalism and quality.'
-    },
-    { id: 'w3q10', num: 'Q10', text: 'Conference papers have higher academic value than journal articles.', type: 'single',
-      options: ['True', 'False'],
-      correct: [1],
-      explanation: 'This is <strong>False</strong>. The academic value of a conference paper is usually <strong>less than</strong> that of a journal article. Journal articles generally undergo more rigorous peer review and are considered higher in academic standing.'
-    },
-  ]
-};
-// --------- END QUIZ DATA ---------
-
-let scores = { correct: 0, wrong: 0, answered: 0 };
-let multiSelected = {};
-let currentWeek = 'week1';
-
-let displayedQuestions = {};
-
-function shuffleWeekQuestions(week) {
-  const original = quizData[week];
-  let questions = original.map(q => {
-    const qCopy = JSON.parse(JSON.stringify(q));
-    let indices = qCopy.options.map((_, i) => i);
-    shuffleArray(indices);
-    let newOptions = [];
-    let newCorrect = [];
-    indices.forEach((fromIdx, newIdx) => {
-      newOptions[newIdx] = qCopy.options[fromIdx];
-      if (qCopy.correct.includes(fromIdx)) newCorrect.push(newIdx);
+  function shuffleWeekQuestions(weekKey) {
+    let questions = originalWeeks[weekKey].map(q => {
+      const qc = JSON.parse(JSON.stringify(q));
+      let idx = qc.options.map((_,i) => i);
+      shuffleArray(idx);
+      let newOpts = [], newCorr = [];
+      idx.forEach((from, to) => {
+        newOpts[to] = qc.options[from];
+        if (qc.correct.includes(from)) newCorr.push(to);
+      });
+      qc.options = newOpts; qc.correct = newCorr;
+      return qc;
     });
-    qCopy.options = newOptions;
-    qCopy.correct = newCorrect;
-    return qCopy;
-  });
-  shuffleArray(questions);
-  questions.forEach((q, idx) => q.num = `Q${idx + 1}`);
-  displayedQuestions[week] = questions;
-}
+    shuffleArray(questions);
+    questions.forEach((q,i) => q.num = `Q${i+1}`);
+    displayedQuestions[weekKey] = questions;
+  }
 
-function showWeek(week, btn) {
-  currentWeek = week;
-  document.querySelectorAll('.week-tab').forEach(t => t.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('week1').style.display = week === 'week1' ? '' : 'none';
-  document.getElementById('week2').style.display = week === 'week2' ? '' : 'none';
-  document.getElementById('week3').style.display = week === 'week3' ? '' : 'none';
-  buildQuiz(week);
-}
+  function buildAllWeeks() {
+    for (let w of ['week1','week2','week3','week4','week5']) shuffleWeekQuestions(w);
+    renderWeek('week1'); renderWeek('week2'); renderWeek('week3'); renderWeek('week4'); renderWeek('week5');
+    updateTotalAndProgress();
+  }
 
-function buildQuiz(weekToBuild = null) {
-  if (weekToBuild) {
-    shuffleWeekQuestions(weekToBuild);
-    renderWeek(weekToBuild);
-  } else {
-    ['week1','week2','week3'].forEach(week => {
-      shuffleWeekQuestions(week);
-      renderWeek(week);
+  function renderWeek(weekKey) {
+    const container = document.getElementById(weekKey);
+    if (!container) return;
+    container.innerHTML = '';
+    (displayedQuestions[weekKey] || []).forEach(q => container.appendChild(renderQuestion(q)));
+  }
+
+  function renderQuestion(q) {
+    const card = document.createElement('div');
+    card.className = 'q-card'; card.id = 'card-' + q.id;
+    const isMulti = q.type === 'multi';
+    let optHTML = '';
+    q.options.forEach((opt, i) => {
+      const lbl = String.fromCharCode(65 + i);
+      const fn = isMulti ? `toggleMulti('${q.id}',${i})` : `selectSingle('${q.id}',${i})`;
+      optHTML += `<button class="option-btn" id="opt-${q.id}-${i}" onclick="${fn}">
+        <span class="opt-label">${lbl}</span><span>${opt}</span></button>`;
+    });
+    card.innerHTML = `
+      <div class="q-meta"><span class="q-num">${q.num}</span><span class="q-type">${isMulti ? 'Select two correct' : 'Single answer'}</span></div>
+      <div class="q-text">${q.text}</div>
+      ${isMulti ? '<div class="multi-note">✦ Choose exactly two options, then Submit</div>' : ''}
+      <div class="options">${optHTML}</div>
+      ${isMulti ? `<button class="submit-multi" id="submit-${q.id}" onclick="submitMulti('${q.id}')" disabled>Submit Answer</button>` : ''}
+      <div class="result-badge" id="badge-${q.id}"></div>
+      <div class="explanation" id="exp-${q.id}">${q.explanation||''}</div>`;
+    return card;
+  }
+
+  function findQ(qid) {
+    for (let w of ['week1','week2','week3','week4','week5']) {
+      const q = displayedQuestions[w]?.find(x=>x.id===qid);
+      if (q) return q;
+    }
+    return null;
+  }
+
+  function selectSingle(qid, idx) {
+    const q = findQ(qid); if (!q) return;
+    const card = document.getElementById('card-'+qid);
+    if (card.classList.contains('answered-correct') || card.classList.contains('answered-wrong')) return;
+    const ok = q.correct.includes(idx);
+    q.options.forEach((_,i) => {
+      const btn = document.getElementById(`opt-${qid}-${i}`); if(btn) btn.disabled = true;
+      if (i===idx && btn) btn.classList.add(ok?'correct':'wrong');
+      if (!ok && q.correct.includes(i) && btn) btn.classList.add('reveal-correct');
+    });
+    card.classList.add(ok?'answered-correct':'answered-wrong');
+    showBadge(qid,ok); showExp(qid); updateScore(ok);
+  }
+
+  function toggleMulti(qid, idx) {
+    const card = document.getElementById('card-'+qid);
+    if (card.classList.contains('answered-correct') || card.classList.contains('answered-wrong')) return;
+    if (!multiSelected[qid]) multiSelected[qid] = new Set();
+    const sel = multiSelected[qid];
+    const btn = document.getElementById(`opt-${qid}-${idx}`);
+    if (sel.has(idx)) {
+      sel.delete(idx);
+      btn.style.borderColor=''; btn.style.background='';
+      btn.querySelector('.opt-label').style.borderColor=''; btn.querySelector('.opt-label').style.color='';
+    } else {
+      if (sel.size >= 2) return;
+      sel.add(idx);
+      btn.style.borderColor='var(--accent2)'; btn.style.background='rgba(123,94,167,0.1)';
+      btn.querySelector('.opt-label').style.borderColor='var(--accent2)'; btn.querySelector('.opt-label').style.color='var(--accent2)';
+    }
+    const sb = document.getElementById('submit-'+qid); if(sb) sb.disabled = sel.size !== 2;
+  }
+
+  function submitMulti(qid) {
+    const q = findQ(qid); if(!q) return;
+    const sel = multiSelected[qid] || new Set();
+    const card = document.getElementById('card-'+qid);
+    if (card.classList.contains('answered-correct') || card.classList.contains('answered-wrong')) return;
+    const ok = JSON.stringify([...sel].sort()) === JSON.stringify([...q.correct].sort());
+    q.options.forEach((_,i) => {
+      const btn = document.getElementById(`opt-${qid}-${i}`);
+      if(btn) btn.disabled=true; btn.style.borderColor=''; btn.style.background='';
+      if(btn) btn.querySelector('.opt-label').style.borderColor=''; btn.querySelector('.opt-label').style.color='';
+      if (sel.has(i) && q.correct.includes(i)) btn.classList.add('correct');
+      else if (sel.has(i) && !q.correct.includes(i)) btn.classList.add('wrong');
+      else if (!sel.has(i) && q.correct.includes(i)) btn.classList.add('reveal-correct');
+    });
+    const sb = document.getElementById('submit-'+qid); if(sb) sb.disabled=true;
+    card.classList.add(ok?'answered-correct':'answered-wrong');
+    showBadge(qid,ok); showExp(qid); updateScore(ok);
+  }
+
+  function showBadge(qid, ok) {
+    const b = document.getElementById('badge-'+qid);
+    if(b) { b.className = 'result-badge show '+(ok?'correct':'wrong'); b.innerHTML = ok ? '✓ Correct!' : '✗ Incorrect'; }
+  }
+  function showExp(qid) { const e = document.getElementById('exp-'+qid); if(e) e.classList.add('show'); }
+
+  function updateScore(ok) {
+    if (ok) scores.correct++; else scores.wrong++;
+    scores.answered++;
+    document.getElementById('correctCount').textContent = scores.correct;
+    document.getElementById('wrongCount').textContent = scores.wrong;
+    updateTotalAndProgress();
+  }
+
+  function updateTotalAndProgress() {
+    let total = 0;
+    for(let w of ['week1','week2','week3','week4','week5']) total += (displayedQuestions[w]?.length || 0);
+    document.getElementById('totalCount').textContent = total;
+    const percent = total===0 ? 0 : Math.round(scores.answered/total*100);
+    document.getElementById('progressFill').style.width = percent+'%';
+  }
+
+  function showWeek(weekId, btn) {
+    document.querySelectorAll('.week-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    ['week1','week2','week3','week4','week5'].forEach(w => {
+      const el = document.getElementById(w);
+      if(el) el.style.display = w === weekId ? '' : 'none';
     });
   }
-  updateProgress();
-}
 
-function renderWeek(week) {
-  const container = document.getElementById(week);
-  container.innerHTML = '';
-  (displayedQuestions[week] || []).forEach(q => container.appendChild(renderQuestion(q)));
-}
-
-function renderQuestion(q) {
-  const card = document.createElement('div');
-  card.className = 'q-card';
-  card.id = 'card-' + q.id;
-  const isMulti = q.type === 'multi';
-
-  let optionsHTML = '';
-  q.options.forEach((opt, i) => {
-    const label = String.fromCharCode(65 + i);
-    const clickFn = isMulti
-      ? `toggleMulti('${q.id}', ${i})`
-      : `selectSingle('${q.id}', ${i})`;
-    optionsHTML += `
-      <button class="option-btn" id="opt-${q.id}-${i}" onclick="${clickFn}">
-        <span class="opt-label">${label}</span>
-        <span>${opt}</span>
-      </button>`;
-  });
-
-  card.innerHTML = `
-    <div class="q-meta">
-      <span class="q-num">${q.num}</span>
-      <span class="q-type">${isMulti ? 'Select two correct answers' : 'Single correct answer'}</span>
-    </div>
-    <div class="q-text">${q.text}</div>
-    ${isMulti ? '<div class="multi-note">✦ Select two options then click Submit</div>' : ''}
-    <div class="options">${optionsHTML}</div>
-    ${isMulti ? `<button class="submit-multi" id="submit-${q.id}" onclick="submitMulti('${q.id}')" disabled>Submit Answer</button>` : ''}
-    <div class="result-badge" id="badge-${q.id}"></div>
-    <div class="explanation" id="exp-${q.id}">${q.explanation || ''}</div>
-  `;
-  return card;
-}
-
-function selectSingle(qid, idx) {
-  const q = findQ(qid);
-  if (!q) return;
-  const card = document.getElementById('card-' + qid);
-  if (card.classList.contains('answered-correct') || card.classList.contains('answered-wrong')) return;
-  const isCorrect = q.correct.includes(idx);
-  q.options.forEach((_, i) => {
-    const btn = document.getElementById(`opt-${qid}-${i}`);
-    btn.disabled = true;
-    if (i === idx) btn.classList.add(isCorrect ? 'correct' : 'wrong');
-    if (!isCorrect && q.correct.includes(i)) btn.classList.add('reveal-correct');
-  });
-  card.classList.add(isCorrect ? 'answered-correct' : 'answered-wrong');
-  showBadge(qid, isCorrect);
-  showExplanation(qid);
-  updateScore(isCorrect);
-}
-
-function toggleMulti(qid, idx) {
-  const card = document.getElementById('card-' + qid);
-  if (card.classList.contains('answered-correct') || card.classList.contains('answered-wrong')) return;
-  if (!multiSelected[qid]) multiSelected[qid] = new Set();
-  const sel = multiSelected[qid];
-  const btn = document.getElementById(`opt-${qid}-${idx}`);
-  if (sel.has(idx)) {
-    sel.delete(idx);
-    btn.style.borderColor = ''; btn.style.background = '';
-    btn.querySelector('.opt-label').style.borderColor = '';
-    btn.querySelector('.opt-label').style.color = '';
-  } else {
-    if (sel.size >= 2) return;
-    sel.add(idx);
-    btn.style.borderColor = 'var(--accent2)'; btn.style.background = 'rgba(123,94,167,0.1)';
-    btn.querySelector('.opt-label').style.borderColor = 'var(--accent2)';
-    btn.querySelector('.opt-label').style.color = 'var(--accent2)';
+  function resetAll() {
+    scores = { correct:0, wrong:0, answered:0 };
+    multiSelected = {};
+    document.getElementById('correctCount').textContent = '0';
+    document.getElementById('wrongCount').textContent = '0';
+    buildAllWeeks();
   }
-  const submitBtn = document.getElementById('submit-' + qid);
-  if (submitBtn) submitBtn.disabled = sel.size !== 2;
-}
 
-function submitMulti(qid) {
-  const q = findQ(qid);
-  if (!q) return;
-  const sel = multiSelected[qid] || new Set();
-  const card = document.getElementById('card-' + qid);
-  if (card.classList.contains('answered-correct') || card.classList.contains('answered-wrong')) return;
-  const isCorrect = JSON.stringify([...sel].sort()) === JSON.stringify([...q.correct].sort());
-  q.options.forEach((_, i) => {
-    const btn = document.getElementById(`opt-${qid}-${i}`);
-    btn.disabled = true;
-    btn.style.borderColor = ''; btn.style.background = '';
-    btn.querySelector('.opt-label').style.borderColor = '';
-    btn.querySelector('.opt-label').style.color = '';
-    if (sel.has(i) && q.correct.includes(i)) btn.classList.add('correct');
-    else if (sel.has(i) && !q.correct.includes(i)) btn.classList.add('wrong');
-    else if (!sel.has(i) && q.correct.includes(i)) btn.classList.add('reveal-correct');
-  });
-  const submitBtn = document.getElementById('submit-' + qid);
-  if (submitBtn) submitBtn.disabled = true;
-  card.classList.add(isCorrect ? 'answered-correct' : 'answered-wrong');
-  showBadge(qid, isCorrect);
-  showExplanation(qid);
-  updateScore(isCorrect);
-}
-
-function showBadge(qid, isCorrect) {
-  const badge = document.getElementById('badge-' + qid);
-  badge.className = 'result-badge show ' + (isCorrect ? 'correct' : 'wrong');
-  badge.innerHTML = isCorrect ? '✓ Correct!' : '✗ Incorrect';
-}
-
-function showExplanation(qid) {
-  const exp = document.getElementById('exp-' + qid);
-  if (exp) exp.classList.add('show');
-}
-
-function updateScore(isCorrect) {
-  if (isCorrect) scores.correct++; else scores.wrong++;
-  scores.answered++;
-  document.getElementById('correctCount').textContent = scores.correct;
-  document.getElementById('wrongCount').textContent = scores.wrong;
-  updateProgress();
-}
-
-function updateProgress() {
-  const total = countTotal();
-  document.getElementById('totalCount').textContent = total;
-  const answered = scores.answered;
-  const pct = total === 0 ? 0 : Math.round((answered / total) * 100);
-  document.getElementById('progressFill').style.width = pct + '%';
-}
-
-function countTotal() {
-  return Object.values(quizData).reduce((s, arr) => s + arr.length, 0);
-}
-
-function findQ(qid) {
-  return (
-    (displayedQuestions.week1 && displayedQuestions.week1.find(x=>x.id===qid)) ||
-    (displayedQuestions.week2 && displayedQuestions.week2.find(x=>x.id===qid)) ||
-    (displayedQuestions.week3 && displayedQuestions.week3.find(x=>x.id===qid)) ||
-    null
-  );
-}
-
-function resetAll() {
-  scores = { correct: 0, wrong: 0, answered: 0 };
-  multiSelected = {};
-  buildQuiz();
-  updateCounters();
-}
-
-buildQuiz();
-
-function updateCounters() {
-  document.getElementById('correctCount').textContent = scores.correct;
-  document.getElementById('wrongCount').textContent = scores.wrong;
-  updateProgress();
-}
+  buildAllWeeks();
+  showWeek('week1', document.querySelector('.week-tab.active'));
 </script>
 </body>
 </html>
